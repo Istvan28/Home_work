@@ -1,5 +1,5 @@
 from files import tasks
-from decorators import view_decorator, create_decorator
+from decorators import view_decorator, create_decorator, timer_decorator
 
 def gen_id(tasks):
     if not len(tasks):
@@ -56,11 +56,13 @@ def create_task(task_id):
             return {task_id: {"title": title, "desc": desc, "priority": priority, "status": status}}
 
 @view_decorator
+@timer_decorator
 def view_task():
      with open("tasks.txt", "r") as file:
           content = file.read()
           print(content)
 
+@timer_decorator
 def delete_task():
      view_task()
      try:
@@ -74,6 +76,8 @@ def delete_task():
      except ValueError:
          print("Введите число.")
 
+         
+@timer_decorator
 def update_task():
     view_task()
     try:
@@ -101,6 +105,7 @@ def update_task():
     except TypeError:
         print("Обновлено")
 
+@timer_decorator
 @create_decorator
 def gen_task(tasks):
     task_id = gen_id(tasks)
